@@ -16,6 +16,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +30,7 @@ import { NotfoundComponent } from './vistas/notfound/notfound.component';
 import { MenuppalComponent } from './vistas/menuppal/menuppal.component';
 import { DashboardComponent } from './vistas/menuppal/dashboard/dashboard.component';
 import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
+
 
 const angularMaterial = [
   MatButtonModule,
@@ -42,7 +46,9 @@ const angularMaterial = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatTableModule,
-  MatSortModule
+  MatSortModule,
+  MatCardModule,
+  MatGridListModule
 ];
 
 @NgModule({
