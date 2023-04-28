@@ -1,4 +1,8 @@
 export const environment = {
     production: true,
-    ambiente: "Producción"
+    ambiente: "Producción",
+    apiServer: {
+        url: 'localhost',
+        puerto: 3000
+    }
 };
