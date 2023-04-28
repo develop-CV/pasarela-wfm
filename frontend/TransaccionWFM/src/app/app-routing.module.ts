@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VigilanteGuard } from "./utilidades/vigilante/vigilante.guard";
-import { UsuarioComponent } from "./vistas/login/usuario/usuario.component";
-import { PasswordComponent } from "./vistas/login/password/password.component";
-import { TemaComponent } from "./vistas/tema/tema.component";
-import { NotfoundComponent } from "./vistas/notfound/notfound.component";
-import { MenuppalComponent } from "./vistas/menuppal/menuppal.component";
-import { DashboardComponent } from "./vistas/menuppal/dashboard/dashboard.component";
-import { UsuariosComponent } from "./vistas/usuarios/usuarios.component";
+import { VigilanteGuard } from "src/app/utilidades/vigilante/vigilante.guard";
+import { UsuarioComponent } from "src/app/vistas/login/usuario/usuario.component";
+import { PasswordComponent } from "src/app/vistas/login/password/password.component";
+import { TemaComponent } from "src/app/vistas/tema/tema.component";
+import { NotfoundComponent } from "src/app/vistas/notfound/notfound.component";
+import { MenuppalComponent } from "src/app/vistas/menuppal/menuppal.component";
+import { DashboardComponent } from "src/app/vistas/menuppal/dashboard/dashboard.component";
+import { UsuariosComponent } from "src/app/vistas/usuarios/usuarios.component";
+import { NewpasswordComponent } from 'src/app/vistas/login/newpassword/newpassword.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,12 @@ const routes: Routes = [
   {
     path:'login',
     component: UsuarioComponent,
+    pathMatch: 'full',
+    canActivate: [VigilanteGuard]
+  },
+  {
+    path:'newpassword',
+    component: NewpasswordComponent,
     pathMatch: 'full',
     canActivate: [VigilanteGuard]
   },

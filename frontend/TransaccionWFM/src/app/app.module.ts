@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Importar los materiales a angular.
 import {MatButtonModule} from '@angular/material/button'; // Botones
@@ -30,6 +32,7 @@ import { NotfoundComponent } from './vistas/notfound/notfound.component';
 import { MenuppalComponent } from './vistas/menuppal/menuppal.component';
 import { DashboardComponent } from './vistas/menuppal/dashboard/dashboard.component';
 import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
+import { NewpasswordComponent } from './vistas/login/newpassword/newpassword.component';
 
 
 const angularMaterial = [
@@ -60,12 +63,16 @@ const angularMaterial = [
     NotfoundComponent,
     MenuppalComponent,
     DashboardComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    NewpasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     angularMaterial
   ],
   providers: [],

@@ -1,25 +1,20 @@
 <div class="main-div">
-<mat-card>
-  <mat-card-content>
-    <div class="logo">
-    <img src="/assets/imagenes/logoCV-login-f8069995.svg" alt="image">
-</div>
-    <h1>Bienvenido</h1>
-    <h2>Pasarela WFM</h2>
-
-    <form class="login-form">
+  <mat-card>
+    <mat-card-content>
+      <div class="logo">
+        <img src="/assets/imagenes/logoCV-login-f8069995.svg" alt="image">
+      </div>
+      <h1>Bienvenido</h1>
+      <h2>Pasarela WFM</h2>
+      <form [formGroup]="formUsuario" (ngSubmit)="validacionUsuario(formUsuario.value)" class="login-form">
         <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput ty>
-          </mat-form-field>
-          <div class="button-end">
-          <button mat-raised-button color="primary" routerLink="/password">Continuar</button>
+          <mat-label>Email</mat-label>
+          <input type="text" placeholder="Digita tu email" formControlName="usuario" matInput ty>
+        </mat-form-field>
+        <div class="button-end">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formUsuario.invalid">Continuar</button>
         </div>
       </form>
-
-  </mat-card-content>
-
-
-</mat-card>
+    </mat-card-content>
+  </mat-card>
 </div>
-
