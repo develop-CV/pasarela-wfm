@@ -16,6 +16,10 @@ const config = {
         [mysqld]
         performance_schema = ON
        */
+    },
+    token:{
+        pwd: "Ij7WmCjYjl835xU*kWMs#8y8r1VTs$v1v6%YpZ8Eni^F2WeKai",
+        timeExpires:"6h"
     }
 };
 

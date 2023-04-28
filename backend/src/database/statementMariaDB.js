@@ -15,7 +15,6 @@ class statementMariaDB {
     dbConector;
     constructor(userName) {
         configConexion.connectAttributes = { username: userName };
-        console.log(configConexion);
         this.dbConector = mariadb.createPool(configConexion);
     };
 
@@ -43,7 +42,7 @@ class statementMariaDB {
                     .then(data => {
                         conexion.commit();
                         conexion.end;
-                        callback(true, data, '');
+                        callback(true, data[0], '');
                         return;
                     })
                     .catch(error => {
@@ -58,49 +57,6 @@ class statementMariaDB {
             };
         });
 
-    };
-
-    async queryBatch(sql, data, callback) {
-        this.conexionDB((conexionOK, conexion, error) => {
-            if (conexionOK) {
-                conexion.beginTransaction();
-                try {
-                    conexion.batch(sql, data)
-                        .then((data) => {
-                            conexion.commit();
-                            conexion.end();
-                            callback(true, data, '');
-                            return;
-                        })
-                        .catch((error) => {
-                            conexion.rollback();
-                            conexion.end();
-                            callback(false, [], error);
-                            return;
-                        });
-                } catch (error) {
-                    conexion.rollback();
-                    conexion.end();
-                    callback(false, [], error);
-                    return;
-                };
-            } else {
-                callback(false, [], error);
-                return;
-            };
-            return;
-            /*
-            EJEMPLO DE PARAMETROS COMO SE DEBEN ENVIAR
-    
-            connection.batch("INSERT INTO basket_item(basketId, itemId) VALUES (?, ?)",[
-                        [basketId, 100],
-                        [basketId, 101],
-                        [basketId, 103],
-                        [basketId, 104],
-                        [basketId, 105]
-                    ]);
-            */
-        });
     };
 };
 
