@@ -8,6 +8,17 @@ import { Component } from '@angular/core';
 export class MenuppalComponent {
 
   constructor() { }
-
+   isSubmenuExpanded = false;
+  
+   toggleSubmenu() {
+      this.isSubmenuExpanded = !this.isSubmenuExpanded;
+  } 
   
 }
+
+
+
+
+
+
+

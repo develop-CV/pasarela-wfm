@@ -18,6 +18,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +52,10 @@ const angularMaterial = [
   MatTableModule,
   MatSortModule,
   MatCardModule,
-  MatGridListModule
+  MatGridListModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatListModule
 ];
 
 @NgModule({

@@ -1,6 +1,66 @@
-<p>menuppal works!</p>
+<mat-drawer-container class="full-container">
+    <mat-drawer class="menu-lat" mode="side" opened>
+        <div class="menu-logo">
+            <img src="/assets/imagenes/menu-logo-cv.svg" alt="image">
+        </div>
 
-<button mat-raised-button color="primary" routerLink="dashboard" routerLinkActive="active">Dashboard</button>
-<button mat-raised-button color="primary" routerLink="usuarios" routerLinkActive="active">Usuarios</button>
+        <mat-nav-list class="lista-menu">
+            <mat-list-item class="active" routerLink="dashboard">
+                <mat-icon>home</mat-icon>
+                <span>Inicio</span>
+              </mat-list-item>
+              <mat-list-item (click)="toggleSubmenu()">
+                <mat-icon>perm_contact_calendar</mat-icon>
+                <span>SARA</span>
+                <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': isSubmenuExpanded}">
+                  arrow_drop_down
+                </mat-icon>
+              </mat-list-item>
+              <mat-nav-list *ngIf="isSubmenuExpanded">
+                <mat-list-item routerLink="/submenu-item-1">
+                  <span>Consulta Planta SARA</span>
+                </mat-list-item>
+                <mat-list-item routerLink="/submenu-item-2">
+                  <span>Cargar Planta Actualizada</span>
+                </mat-list-item>
+              </mat-nav-list>
+              <mat-list-item (click)="toggleSubmenu()">
+                <mat-icon>settings</mat-icon>
+                <span>Administración</span>
+                <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': isSubmenuExpanded}">
+                  arrow_drop_down
+                </mat-icon>
+              </mat-list-item>
+              <mat-nav-list *ngIf="isSubmenuExpanded">
+                <mat-list-item routerLink="usuarios">
+                  <span>Usuarios</span>
+                </mat-list-item>
+                <mat-list-item routerLink="">
+                  <span>Configuración Frecuencia Carga</span>
+                </mat-list-item>
+              </mat-nav-list>
+          </mat-nav-list>
 
-<router-outlet></router-outlet>
+      
+<div class="menu-usuario">
+    <div class="avatar"></div>
+    <div class="info-usuario">
+        <h3>Usuario Herramienta</h3>
+        <span>Administrador</span>
+    </div>
+    <mat-nav-list>
+        <mat-list-item routerLink="dashboard">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Cerrar sesión</span>
+          </mat-list-item>
+    </mat-nav-list>
+    
+</div>
+
+    </mat-drawer>
+    <mat-drawer-content class="content">
+        <router-outlet></router-outlet>
+
+    </mat-drawer-content>
+  </mat-drawer-container>
+

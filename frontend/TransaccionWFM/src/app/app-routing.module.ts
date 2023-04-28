@@ -30,22 +30,22 @@ const routes: Routes = [
   {
     path:'home',
     component: MenuppalComponent,
-    canActivate: [VigilanteGuard],
+    /*canActivate: [VigilanteGuard],*/
     children: [
       {
         path:'',
         component: DashboardComponent,
-        canActivate: [VigilanteGuard]
+        /*canActivate: [VigilanteGuard]*/
       },
       {
         path:'dashboard',
         component: DashboardComponent,
-        canActivate: [VigilanteGuard]
+        /*canActivate: [VigilanteGuard]*/
       },
       {
         path:'usuarios',
         component: UsuariosComponent,
-        canActivate: [VigilanteGuard]
+        /*canActivate: [VigilanteGuard]*/
       }
     ]
   },
