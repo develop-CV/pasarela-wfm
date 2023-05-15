@@ -1,9 +1,9 @@
 const config = {
     ambiente: "Desarrollo",
     databaseTWFM: {
-        host: "172.29.208.1",
-        user: "wfm",
-        password: "wfm",
+        host: "localhost",
+        user: "root",
+        password: "cruzverde",
         database: "wfm",
         port: 3306
         /*
