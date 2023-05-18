@@ -23,6 +23,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -37,6 +38,8 @@ import { MenuppalComponent } from './vistas/menuppal/menuppal.component';
 import { DashboardComponent } from './vistas/menuppal/dashboard/dashboard.component';
 import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
 import { NewpasswordComponent } from './vistas/login/newpassword/newpassword.component';
+import { ProcesandoComponent } from './vistas/procesando/procesando.component';
+import { DatahijoService } from 'src/app/servicios/datahijo/datahijo.service';
 
 
 const angularMaterial = [
@@ -58,7 +61,8 @@ const angularMaterial = [
   MatGridListModule,
   MatMenuModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatDialogModule
 ];
 
 @NgModule({
@@ -71,7 +75,8 @@ const angularMaterial = [
     MenuppalComponent,
     DashboardComponent,
     UsuariosComponent,
-    NewpasswordComponent
+    NewpasswordComponent,
+    ProcesandoComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,9 @@ const angularMaterial = [
     FormsModule,
     angularMaterial
   ],
-  providers: [],
+  providers: [
+    DatahijoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

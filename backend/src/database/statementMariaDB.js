@@ -8,7 +8,9 @@ const configConexion = {
     database: config.databaseTWFM.database,
     port: config.databaseTWFM.port.toString(),
     connectAttributes: {},
-    connectionLimit: 5
+    connectionLimit: 5,
+    bigIntAsNumber: true,
+    insertIdAsNumber: true
 };
 
 class statementMariaDB {
@@ -38,14 +40,18 @@ class statementMariaDB {
         this.conexionDB((conexionOK, conexion, error) => {
             if (conexionOK) {
                 conexion.beginTransaction();
+                console.log('EJECUTA QUERY');
                 conexion.query(sql)
                     .then(data => {
+                        console.log('INGRESA THEN');
                         conexion.commit();
                         conexion.end;
-                        callback(true, data[0], '');
+                        callback(true, data, '');
                         return;
                     })
                     .catch(error => {
+                        console.log('INGRESA CATCH');
+                        console.log(error);
                         conexion.rollback();
                         conexion.end;
                         callback(false, [], error);

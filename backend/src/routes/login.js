@@ -204,17 +204,8 @@ router.post('/validaciontoken', (req, res) => {
     if (tokenString.length > 0) { } else {
         res.send(false);
     };
-    console.log(tokenString);
-    token.decodificarToken(tokenString, (datosUsuario) => {
-        try {
-            if (datosUsuario.id > 0) {
-                console.log('TOKEN OK');
-                res.send(true);
-            };
-        } catch (error) {
-            console.log('TOKEN MALO');
-            res.send(false);
-        }
+    token.tokenValido(tokenString, (esValido, data) => {
+        res.send(esValido);
     });
 });
 
@@ -263,7 +254,6 @@ router.post('/newpwd', (req, res) => {
                     return;
                 };
             } catch (error) {
-                console.log(error);
                 retorno.status.mensaje = 'Usuario no valido para cambio de Contraseña.';
                 res.json(retorno);
                 return;

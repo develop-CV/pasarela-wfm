@@ -13,7 +13,7 @@ class usuarios{
         };
         var sql = "CALL spConsultaUsuario('" + JSON.stringify(parametros) + "')";
         statementConsumo.query(sql,(ok, data, error) => {
-            callback(ok, data, error);
+            callback(ok, data[0], error);
         });
     };
 
@@ -45,7 +45,7 @@ class usuarios{
         statementConsumo.query(sql,(ok, data, error) => {
             if (ok){
                 try {
-                    var pwd = data.pwd;
+                    var pwd = data[0].pwd;
                     callback(pwd, '');
                     return;
                 } catch (err) {
@@ -58,6 +58,26 @@ class usuarios{
             }
         });
 
+    };
+
+    consultaUsuarios(idUsuario, callback){
+        try {
+            var sql = "CALL spConsultarUsuarios";
+            if (idUsuario > 0){
+                sql = sql + "(" + idUsuario.toString() + ")";
+            }else{
+                sql = sql + "(0)";
+            };
+            
+            let statementConsumo = new statement(this.userConnetion);
+            statementConsumo.query(sql, (ok, data, error) => {
+                callback(ok, data[0], error);
+                return;
+            });
+        } catch (error) {
+            callback(false, [], error);
+            return;
+        };
     };
 };
 

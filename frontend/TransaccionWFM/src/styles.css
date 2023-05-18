@@ -85,7 +85,7 @@ h2{
  .menu-logo{
      background: #059748;
      height: 70px;
-     margin-bottom: 50px;
+     margin-bottom: 0px;
      padding-top: 10px;
      box-sizing: border-box;
      overflow: hidden;
@@ -131,6 +131,12 @@ h2{
      color: white;
      font-weight: bold;
  }
+
+ .lista-menu mat-list-item.inactive{
+    background: white;
+    color: black;
+    font-weight: normal;
+}
  
  .lista-menu .active span, .active:hover span *{
      color: white;

@@ -30,6 +30,7 @@ app.use(express.json()); // Poder recibir formatos JSON y entenderlos
 // Rutas (routes)
 app.use('/api/prueba', require('./routes/pruebas.js'));
 app.use('/api/login', require('./routes/login.js'));
+app.use('/api/maestros', require('./routes/master.js'));
 
 // Iniciamos el servidor
 app.listen(app.get('port'), () => {

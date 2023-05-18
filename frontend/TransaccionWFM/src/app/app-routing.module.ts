@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { environment } from "src/environments/environment";
 import { RouterModule, Routes } from '@angular/router';
 import { VigilanteGuard } from "src/app/utilidades/vigilante/vigilante.guard";
 import { UsuarioComponent } from "src/app/vistas/login/usuario/usuario.component";
@@ -10,49 +11,58 @@ import { DashboardComponent } from "src/app/vistas/menuppal/dashboard/dashboard.
 import { UsuariosComponent } from "src/app/vistas/usuarios/usuarios.component";
 import { NewpasswordComponent } from 'src/app/vistas/login/newpassword/newpassword.component';
 
+const titulo = (environment.production ? '' : environment.ambiente);
+
 const routes: Routes = [
   {
     path:'',
     redirectTo: '/login',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    title: 'TransaccionWFM-Login ' + titulo
   },
   {
     path:'login',
     component: UsuarioComponent,
     pathMatch: 'full',
-    canActivate: [VigilanteGuard]
+    canActivate: [VigilanteGuard],
+    title: 'TransaccionWFM-Login ' + titulo
   },
   {
     path:'newpassword',
     component: NewpasswordComponent,
     pathMatch: 'full',
-    canActivate: [VigilanteGuard]
+    canActivate: [VigilanteGuard],
+    title: 'TransaccionWFM-Nuevo Password ' + titulo
   },
   {
     path:'password',
     component: PasswordComponent,
     pathMatch: 'full',
-    canActivate: [VigilanteGuard]
+    canActivate: [VigilanteGuard],
+    title: 'TransaccionWFM-Login ' + titulo
   },
   {
     path:'home',
     component: MenuppalComponent,
-    /*canActivate: [VigilanteGuard],*/
+    canActivate: [VigilanteGuard],
     children: [
       {
         path:'',
         component: DashboardComponent,
-        /*canActivate: [VigilanteGuard]*/
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Inicio ' + titulo
       },
       {
         path:'dashboard',
         component: DashboardComponent,
-        /*canActivate: [VigilanteGuard]*/
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Inicio ' + titulo
       },
       {
         path:'usuarios',
         component: UsuariosComponent,
-        /*canActivate: [VigilanteGuard]*/
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Usuarios ' + titulo
       }
     ]
   },
@@ -60,13 +70,14 @@ const routes: Routes = [
     path:'tema',
     component: TemaComponent,
     pathMatch: 'full',
-    canActivate: [VigilanteGuard]
+    canActivate: [VigilanteGuard],
+    title: 'TransaccionWFM-Temas ' + titulo
   },
   {
     path: '**',
-    title: 'Pagina No Existe!!!',
     component: NotfoundComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    title: 'TransaccionWFM-Pagina no existe!!! ' + titulo
   }
 ];
 

@@ -32,6 +32,26 @@ class token{
             };
         };
     };
+
+    tokenValido(token, callback){
+        try {
+            if (token.length > 0){}else{
+                callback(false, {});
+            }
+        } catch (error) {
+            callback(false, {});
+        };
+        
+        this.decodificarToken(token, (datosUsuario) => {
+            try {
+                if (datosUsuario.id > 0) {
+                    callback(true, datosUsuario);
+                };
+            } catch (error) {
+                callback(false, {});
+            }
+        });
+    };
 }
 
 module.exports = token;

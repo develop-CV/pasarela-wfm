@@ -1,71 +1,82 @@
 <mat-drawer-container class="full-container">
-    <mat-drawer class="menu-lat" mode="side" opened>
-        <div class="menu-logo">
-            <img src="/assets/imagenes/menu-logo-cv.svg" alt="image">
-        </div>
-
-        <mat-nav-list class="lista-menu">
-            <mat-list-item class="active" routerLink="dashboard">
-                <mat-icon>home</mat-icon>
-                <span>Inicio</span>
-              </mat-list-item>
-              <mat-list-item (click)="toggleSubmenu()">
-                <mat-icon>perm_contact_calendar</mat-icon>
-                <span>SARA</span>
-                <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': isSubmenuExpanded}">
-                  arrow_drop_down
-                </mat-icon>
-              </mat-list-item>
-              <mat-nav-list *ngIf="isSubmenuExpanded">
-                <mat-list-item routerLink="/submenu-item-1">
-                  <span>Consulta Planta SARA</span>
-                </mat-list-item>
-                <mat-list-item routerLink="/submenu-item-2">
-                  <span>Cargar Planta Actualizada</span>
-                </mat-list-item>
-              </mat-nav-list>
-              <mat-list-item (click)="toggleSubmenu()">
-                <mat-icon>settings</mat-icon>
-                <span>Administración</span>
-                <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': isSubmenuExpanded}">
-                  arrow_drop_down
-                </mat-icon>
-              </mat-list-item>
-              <mat-nav-list *ngIf="isSubmenuExpanded">
-                <mat-list-item routerLink="usuarios">
-                  <span>Usuarios</span>
-                </mat-list-item>
-                <mat-list-item routerLink="">
-                  <span>Configuración Frecuencia Carga</span>
-                </mat-list-item>
-              </mat-nav-list>
-          </mat-nav-list>
-
-      
-<div class="menu-usuario">
-  <div class="content-avatar">
-  <div class="avatar">
-    <img src="/assets/imagenes/avatar-wfm.svg" alt="image">
-  </div>
-    <div class="info-usuario">
-        <h3>Usuario Herramienta</h3>
-        <span>Administrador</span>
+  <mat-drawer class="menu-lat" mode="side" opened>
+    <div class="menu-logo">
+      <img src="/assets/imagenes/menu-logo-cv.svg" alt="image">
     </div>
-  </div>
-
-    <mat-nav-list class="lista-menu">
-        <mat-list-item routerLink="dashboard">
-            <mat-icon>exit_to_app</mat-icon>
-            <span>Cerrar sesión</span>
-          </mat-list-item>
-    </mat-nav-list>
     
-</div>
+    <mat-nav-list class="lista-menu">
 
-    </mat-drawer>
-    <mat-drawer-content class="content">
-        <router-outlet></router-outlet>
+      <mat-list-item (click)="toggleSubmenu('I')" [ngClass]="(submenuExpanded === 'I' ? 'active' : 'inactive')"
+        routerLink="dashboard" (click)="clickOpcionRouter('Inicio')">
+        <mat-icon>home</mat-icon>
+        <span>Inicio</span>
+      </mat-list-item>
 
-    </mat-drawer-content>
-  </mat-drawer-container>
+      <mat-list-item (click)="toggleSubmenu('S')" [ngClass]="(submenuExpanded === 'S' ? 'active' : 'inactive')">
+        <mat-icon>perm_contact_calendar</mat-icon>
+        <span>SARA</span>
+        <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': (submenuExpanded === 'S')}">
+          arrow_drop_down
+        </mat-icon>
+      </mat-list-item>
+      <mat-nav-list *ngIf="(submenuExpanded === 'S')">
+        <mat-list-item routerLink="" (click)="clickOpcionRouter('Consulta Planta SARA')">
+          <span>Consulta Planta SARA</span>
+        </mat-list-item>
+        <mat-list-item routerLink="" (click)="clickOpcionRouter('Cargar Planta Actualizada')">
+          <span>Cargar Planta Actualizada</span>
+        </mat-list-item>
+      </mat-nav-list>
 
+      <mat-list-item (click)="toggleSubmenu('A')" [ngClass]="(submenuExpanded === 'A' ? 'active' : 'inactive')">
+        <mat-icon>settings</mat-icon>
+        <span>Administración</span>
+        <mat-icon class="submenu-arrow" [ngClass]="{'submenu-arrow--expanded': submenuExpanded === 'A'}">
+          arrow_drop_down
+        </mat-icon>
+      </mat-list-item>
+      <mat-nav-list *ngIf="submenuExpanded === 'A'">
+        <mat-list-item routerLink="usuarios" (click)="clickOpcionRouter('Usuarios')">
+          <span>Usuarios</span>
+        </mat-list-item>
+        <mat-list-item routerLink="" (click)="clickOpcionRouter('Configuración Frecuencia Carga')">
+          <span>Configuración Frecuencia Carga</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-nav-list>
+
+
+    <div class="menu-usuario">
+      <div class="content-avatar">
+        <div class="avatar">
+          <img src="/assets/imagenes/avatar-wfm.svg" alt="image">
+        </div>
+        <div class="info-usuario">
+          <h3>{{this.usuario.nombreCompleto}}</h3>
+          <span>{{(this.usuario.perfil === 'A' ? 'Administrador' : 'Gestor')}}</span>
+        </div>
+      </div>
+
+      <mat-nav-list class="lista-menu">
+        <mat-list-item (click)="cerrarSesion()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar sesión</span>
+        </mat-list-item>
+      </mat-nav-list>
+
+    </div>
+
+  </mat-drawer>
+  <mat-drawer-content class="content">
+
+
+    <div class="titulo">
+      <h1>{{this.titulo}}</h1>
+    </div>
+    <div class="card-content">
+      <router-outlet></router-outlet>
+    </div>
+
+
+  </mat-drawer-content>
+</mat-drawer-container>
