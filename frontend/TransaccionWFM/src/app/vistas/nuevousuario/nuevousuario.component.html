@@ -32,6 +32,10 @@
             <input type="email" placeholder="Email" formControlName="correo" matInput ty>
         </mat-form-field>
     </div>
+
+    <div class="container">
+        <mat-slide-toggle color="primary" formControlName="esActivo">Activo</mat-slide-toggle>
+    </div>
     
     <div class="button-end">
         <button mat-raised-button color="primary" (click)="crearUsuario(formUsuario.value)" [disabled]="formUsuario.invalid">Continuar</button>

@@ -4,6 +4,9 @@ import { FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Login } from 'src/app/modelos/login';
 import { ServerService } from 'src/app/servicios/api/server.service';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
@@ -15,7 +18,7 @@ export class PasswordComponent implements OnInit{
   user = <string | ''>localStorage.getItem('user');
   usuario: string;
 
-  constructor(private router: Router, private fb: FormBuilder, private api:ServerService) {
+  constructor(private router: Router, private fb: FormBuilder, private api:ServerService, public dialog: MatDialog) {
     this.usuario = '';
     if (this.user.length > 0) {
       try {
@@ -42,7 +45,9 @@ export class PasswordComponent implements OnInit{
   };
 
   login(form: Login){
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.login(form).subscribe(data => {
+      procesando.close();
       if (data.status.ok){
         try {
           if (JSON.parse(data.data).usuarioOK){

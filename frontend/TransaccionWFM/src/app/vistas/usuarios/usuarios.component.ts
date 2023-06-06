@@ -9,6 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { NuevousuarioComponent } from '../nuevousuario/nuevousuario.component';
 import { Tbusuarios } from 'src/app/modelos/tbusuarios';
 import { ExcelService } from 'src/app/servicios/excel/excel.service';
+import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
 
 @Component({
   selector: 'app-usuarios',
@@ -41,7 +42,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   consumirUsuarios(idUsuario:any){
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.consultarUsuarios(idUsuario).subscribe(data => {
+      procesando.close();
       if (data.status.ok){
         this.usuarios = JSON.parse(data.data);
         this.dataSource = new MatTableDataSource<Tbusuarios>(this.usuarios.filter(function(usuario:Tbusuarios){
@@ -49,6 +52,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         }));
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+      }else{
+        alert(data.status.mensaje);
       }
     });
   }
@@ -95,13 +100,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   restaurarContrasena(usuario:Tbusuarios){
     usuario.esNuevoPassword = true;
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.grabarUsuario(usuario).subscribe(data => {
+      procesando.close();
     });
   }
 
   borrarUsuario(usuario:Tbusuarios){
     usuario.esEliminado = true;
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.grabarUsuario(usuario).subscribe(data => {
+      procesando.close();
       this.consumirUsuarios(0); // Consultar los usuarios de nuevo en el servicio después de crear el nuevo
     });
   }

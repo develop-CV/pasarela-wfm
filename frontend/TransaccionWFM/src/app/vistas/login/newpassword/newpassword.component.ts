@@ -5,6 +5,10 @@ import { Newpassword } from 'src/app/modelos/newpassword';
 import { ServerService } from 'src/app/servicios/api/server.service';
 import { validaciones } from "src/app/utilidades/validaciones";
 
+import { MatDialog } from '@angular/material/dialog';
+import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+
+
 @Component({
   selector: 'app-newpassword',
   templateUrl: './newpassword.component.html',
@@ -17,7 +21,7 @@ export class NewpasswordComponent implements OnInit{
   user = <string | ''>localStorage.getItem('user');
   usuario: string;
   
-  constructor(private fb:FormBuilder, private router:Router, private api:ServerService){
+  constructor(private fb:FormBuilder, private router:Router, private api:ServerService, public dialog: MatDialog){
     this.usuario = '';
     if (this.user.length > 0) {
       try {
@@ -51,7 +55,9 @@ export class NewpasswordComponent implements OnInit{
   };
 
   guardarPassword(form:Newpassword){
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.newPassword(form).subscribe(data => {
+      procesando.close();
       if (data.status.ok){
         try {
           if (data.data.usuarioOK){

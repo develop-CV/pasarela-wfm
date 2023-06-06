@@ -68,7 +68,7 @@ class usuarios{
             }else{
                 sql = sql + "(0)";
             };
-            
+            console.log(sql);
             let statementConsumo = new statement(this.userConnetion);
             statementConsumo.query(sql, (ok, data, error) => {
                 callback(ok, data[0], error);
@@ -83,6 +83,7 @@ class usuarios{
     updateUsuario(datosUsuario, callback){
         let statementConsumo = new statement(this.userConnetion);
         var sql = "CALL spGrabarUsuario('" + JSON.stringify(datosUsuario) + "')";
+        console.log(sql);
         statementConsumo.query(sql,(ok, data, error) => {
             var dataReturn = '';
             try {

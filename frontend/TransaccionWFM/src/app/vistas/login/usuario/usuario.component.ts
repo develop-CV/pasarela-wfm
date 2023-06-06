@@ -5,6 +5,9 @@ import { ServerService } from 'src/app/servicios/api/server.service';
 import { environment } from 'src/environments/environment';
 import { Login } from 'src/app/modelos/login';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
@@ -14,10 +17,8 @@ export class UsuarioComponent implements OnInit{
   formUsuario: any;
   ambiente = environment.ambiente;
   
-  constructor(private api:ServerService, private router: Router, private fb: FormBuilder){
-        
-  }
-
+  constructor(private api:ServerService, private router: Router, private fb: FormBuilder, public dialog: MatDialog){}
+  
   ngOnInit(): void {
     this.formUsuario = this.fb.group({
       usuario: new FormControl('', [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
@@ -25,7 +26,9 @@ export class UsuarioComponent implements OnInit{
   };
 
   validacionUsuario(form: Login){
+    var procesando = this.dialog.open(ProcesandoComponent,{disableClose:true});
     this.api.validarUsuario(form).subscribe(data => {
+      procesando.close();
       if (data.status.ok){
         try {
           if (JSON.parse(data.data).usuarioOK){

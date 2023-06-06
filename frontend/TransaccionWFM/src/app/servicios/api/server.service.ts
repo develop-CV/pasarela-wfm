@@ -21,36 +21,32 @@ export class ServerService {
     console.log('API validarUsuario()');
     let direccion = this.url + 'api/login/user/';
     //this.dialog.open(ProcesandoComponent,{disableClose:true});
-    let dataRetornar = this.http.post<Returnserver>(direccion, form);
     //this.dialog.closeAll();
-    return dataRetornar;
+    return this.http.post<Returnserver>(direccion, form);
   };
 
   login(form:Login):Observable<Returnserver>{
     console.log('API login()');
     let direccion = this.url + 'api/login/login/';
     //this.dialog.open(ProcesandoComponent,{disableClose:true});
-    let dataRetornar = this.http.post<Returnserver>(direccion, form);
     //this.dialog.closeAll();
-    return dataRetornar;
+    return this.http.post<Returnserver>(direccion, form);
   };
 
   validacionToken(token:object):Observable<boolean>{
     console.log('API validaciontoken()');
     let direccion = this.url + 'api/login/validaciontoken/';
     //this.dialog.open(ProcesandoComponent,{disableClose:true});
-    let dataRetornar = this.http.post<boolean>(direccion, token);
     //this.dialog.closeAll();
-    return dataRetornar;
+    return this.http.post<boolean>(direccion, token);
   };
 
   newPassword(form:Newpassword):Observable<Returnserver>{
     console.log('API newPassword()');
     let direccion = this.url + 'api/login/newpwd/';
     //this.dialog.open(ProcesandoComponent,{disableClose:true});
-    let dataRetornar = this.http.post<Returnserver>(direccion, form);
     //this.dialog.closeAll();
-    return dataRetornar;
+    return this.http.post<Returnserver>(direccion, form);
   };
 
   consultarUsuarios(idUsuario:bigint):Observable<Returnserver>{
