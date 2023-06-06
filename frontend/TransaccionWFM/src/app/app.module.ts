@@ -24,6 +24,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 
 
@@ -40,6 +42,7 @@ import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
 import { NewpasswordComponent } from './vistas/login/newpassword/newpassword.component';
 import { ProcesandoComponent } from './vistas/procesando/procesando.component';
 import { DatahijoService } from 'src/app/servicios/datahijo/datahijo.service';
+import { NuevousuarioComponent } from './vistas/nuevousuario/nuevousuario.component';
 
 
 const angularMaterial = [
@@ -62,7 +65,9 @@ const angularMaterial = [
   MatMenuModule,
   MatSidenavModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule,
+  TextFieldModule
 ];
 
 @NgModule({
@@ -76,7 +81,8 @@ const angularMaterial = [
     DashboardComponent,
     UsuariosComponent,
     NewpasswordComponent,
-    ProcesandoComponent
+    ProcesandoComponent,
+    NuevousuarioComponent
   ],
   imports: [
     BrowserModule,

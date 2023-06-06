@@ -79,6 +79,26 @@ class usuarios{
             return;
         };
     };
+
+    updateUsuario(datosUsuario, callback){
+        let statementConsumo = new statement(this.userConnetion);
+        var sql = "CALL spGrabarUsuario('" + JSON.stringify(datosUsuario) + "')";
+        statementConsumo.query(sql,(ok, data, error) => {
+            var dataReturn = '';
+            try {
+                if (data[0]){
+                    if ((data[0])[0]){
+                        dataReturn = (data[0])[0];
+                    }else{
+                        dataReturn = data[0];
+                    }
+                }
+            } catch (error) {
+            }
+            callback(ok, dataReturn, error);
+            return;
+        });
+    };
 };
 
 module.exports = usuarios;

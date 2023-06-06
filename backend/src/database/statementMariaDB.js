@@ -40,17 +40,17 @@ class statementMariaDB {
         this.conexionDB((conexionOK, conexion, error) => {
             if (conexionOK) {
                 conexion.beginTransaction();
-                console.log('EJECUTA QUERY');
+                //console.log('EJECUTA QUERY');
                 conexion.query(sql)
                     .then(data => {
-                        console.log('INGRESA THEN');
+                        //console.log('INGRESA THEN');
                         conexion.commit();
                         conexion.end;
                         callback(true, data, '');
                         return;
                     })
                     .catch(error => {
-                        console.log('INGRESA CATCH');
+                        //console.log('INGRESA CATCH');
                         console.log(error);
                         conexion.rollback();
                         conexion.end;

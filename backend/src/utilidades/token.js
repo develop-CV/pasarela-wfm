@@ -29,7 +29,11 @@ class token{
                     }
                     callback(decoded);
                 });
+            }else{
+                callback('');
             };
+        }else{
+            callback('');
         };
     };
 
@@ -37,18 +41,25 @@ class token{
         try {
             if (token.length > 0){}else{
                 callback(false, {});
+                return;
             }
         } catch (error) {
             callback(false, {});
+            return;
         };
         
         this.decodificarToken(token, (datosUsuario) => {
             try {
                 if (datosUsuario.id > 0) {
                     callback(true, datosUsuario);
+                    return;
+                }else{
+                    callback(false, {});
+                    return;
                 };
             } catch (error) {
                 callback(false, {});
+                return;
             }
         });
     };

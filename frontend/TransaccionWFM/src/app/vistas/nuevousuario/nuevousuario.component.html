@@ -1,0 +1,40 @@
+<form [formGroup]="formUsuario" class="login-form">
+    <div class="container">
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de Identificación</mat-label>
+            <mat-select placeholder="Tipo Identificación" formControlName="idTipoIdentificacion" matInput ty>
+                <mat-option *ngFor="let tipoIdentificacion of tiposIdentificaciones" [value]="tipoIdentificacion.id">{{tipoIdentificacion.tipoIdentificacion}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Identificación</mat-label>
+            <input type="text" placeholder="Identificación" formControlName="identificacion" matInput ty>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Perfil</mat-label>
+            <mat-select placeholder="Perfil" formControlName="perfil" matInput ty>
+                <mat-option value="A">Administrador</mat-option>
+                <mat-option value="G">Gestor</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="container">
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre completo</mat-label>
+            <input type="text" placeholder="Nombre Completo" formControlName="nombreCompleto" matInput ty>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Email(Usuario)</mat-label>
+            <input type="email" placeholder="Email" formControlName="correo" matInput ty>
+        </mat-form-field>
+    </div>
+    
+    <div class="button-end">
+        <button mat-raised-button color="primary" (click)="crearUsuario(formUsuario.value)" [disabled]="formUsuario.invalid">Continuar</button>
+        <button mat-raised-button color="basic" (click)="cancelar()">Cancelar</button>
+    </div>
+</form>
