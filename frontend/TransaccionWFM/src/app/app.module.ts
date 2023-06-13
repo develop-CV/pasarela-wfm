@@ -26,6 +26,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 
@@ -43,6 +44,11 @@ import { NewpasswordComponent } from './vistas/login/newpassword/newpassword.com
 import { ProcesandoComponent } from './vistas/procesando/procesando.component';
 import { DatahijoService } from 'src/app/servicios/datahijo/datahijo.service';
 import { NuevousuarioComponent } from './vistas/nuevousuario/nuevousuario.component';
+import { MensajeComponent } from './vistas/mensaje/mensaje.component';
+import { FrecuenciacargaComponent } from './vistas/frecuenciacarga/frecuenciacarga.component';
+import { NuevafrecuenciacargaComponent } from './vistas/nuevafrecuenciacarga/nuevafrecuenciacarga.component';
+import { CargaplantaComponent } from './vistas/cargaplanta/cargaplanta.component';
+import { ConsultaplantaComponent } from './vistas/consultaplanta/consultaplanta.component';
 
 
 const angularMaterial = [
@@ -67,7 +73,8 @@ const angularMaterial = [
   MatListModule,
   MatDialogModule,
   MatSelectModule,
-  TextFieldModule
+  TextFieldModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
@@ -82,7 +89,12 @@ const angularMaterial = [
     UsuariosComponent,
     NewpasswordComponent,
     ProcesandoComponent,
-    NuevousuarioComponent
+    NuevousuarioComponent,
+    MensajeComponent,
+    FrecuenciacargaComponent,
+    NuevafrecuenciacargaComponent,
+    CargaplantaComponent,
+    ConsultaplantaComponent
   ],
   imports: [
     BrowserModule,

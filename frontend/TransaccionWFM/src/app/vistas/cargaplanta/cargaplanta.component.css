@@ -1,0 +1,10 @@
+.file-input {
+  display: none;
+}
+
+mat-grid-list {
+  border: 1px;
+  border-radius: 5px;
+  border-style: dashed dotted;
+  cursor: pointer;
+}

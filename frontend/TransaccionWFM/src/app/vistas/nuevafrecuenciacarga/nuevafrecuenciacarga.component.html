@@ -1,0 +1,22 @@
+<form [formGroup]="formServiciosHorarios" class="login-form">
+    <div class="container">
+        <mat-form-field appearance="outline">
+            <mat-label>Servicio</mat-label>
+            <mat-select placeholder="Servicio" formControlName="idServicio" matInput ty>
+                <mat-option *ngFor="let servicio of servicios" [value]="servicio.id">{{servicio.nombre}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Hora</mat-label>
+            <input type="time" placeholder="Hora" formControlName="hora" matInput ty>
+        </mat-form-field>
+
+        <mat-slide-toggle color="primary" formControlName="esActivo">Activo</mat-slide-toggle>
+    </div>
+    
+    <div class="button-end">
+        <button mat-raised-button color="primary" (click)="crearFrecuenciaCarga(formServiciosHorarios.value)" [disabled]="formServiciosHorarios.invalid">Continuar</button>
+        <button mat-raised-button color="basic" (click)="cancelar()">Cancelar</button>
+    </div>
+</form>

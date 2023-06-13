@@ -7,6 +7,7 @@ import { Login } from 'src/app/modelos/login';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+import { SnackbarService } from 'src/app/servicios/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-usuario',
@@ -17,7 +18,8 @@ export class UsuarioComponent implements OnInit{
   formUsuario: any;
   ambiente = environment.ambiente;
   
-  constructor(private api:ServerService, private router: Router, private fb: FormBuilder, public dialog: MatDialog){}
+  constructor(private api:ServerService, private router: Router, private fb: FormBuilder, 
+    public dialog: MatDialog, public snackBar: SnackbarService){}
   
   ngOnInit(): void {
     this.formUsuario = this.fb.group({
@@ -41,14 +43,16 @@ export class UsuarioComponent implements OnInit{
             }
           }else{
             // Usuario no valido
+            this.snackBar.openSnackBar('Usuario no existe!!!', 'Aceptar');
           }
         } catch (error) {
           // Usuario no valido
+          this.snackBar.openSnackBar('Usuario no existe!!!', 'Aceptar');
         }
       }else{
         // Alerta de error en el servidor
         var mensaje = (data.status.mensaje.length > 0 ? data.status.mensaje : 'Error no identificado login de usuario!!!.');
-        alert(mensaje);
+        this.snackBar.openSnackBar(mensaje, 'Aceptar');
       };
     });
   }

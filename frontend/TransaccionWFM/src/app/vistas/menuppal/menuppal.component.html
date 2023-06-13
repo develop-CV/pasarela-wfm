@@ -7,7 +7,7 @@
     <mat-nav-list class="lista-menu">
 
       <mat-list-item (click)="toggleSubmenu('I')" [ngClass]="(submenuExpanded === 'I' ? 'active' : 'inactive')"
-        routerLink="dashboard" (click)="clickOpcionRouter('Inicio')">
+        routerLink="dashboard">
         <mat-icon>home</mat-icon>
         <span>Inicio</span>
       </mat-list-item>
@@ -20,10 +20,10 @@
         </mat-icon>
       </mat-list-item>
       <mat-nav-list *ngIf="(submenuExpanded === 'S')">
-        <mat-list-item routerLink="" (click)="clickOpcionRouter('Consulta Planta SARA')">
+        <mat-list-item routerLink="consultaplanta">
           <span>Consulta Planta SARA</span>
         </mat-list-item>
-        <mat-list-item routerLink="" (click)="clickOpcionRouter('Cargar Planta Actualizada')">
+        <mat-list-item routerLink="cargaplanta">
           <span>Cargar Planta Actualizada</span>
         </mat-list-item>
       </mat-nav-list>
@@ -36,10 +36,10 @@
         </mat-icon>
       </mat-list-item>
       <mat-nav-list *ngIf="submenuExpanded === 'A'">
-        <mat-list-item routerLink="usuarios" (click)="clickOpcionRouter('Usuarios')">
+        <mat-list-item routerLink="usuarios">
           <span>Usuarios</span>
         </mat-list-item>
-        <mat-list-item routerLink="" (click)="clickOpcionRouter('Configuración Frecuencia Carga')">
+        <mat-list-item routerLink="frecuenciacarga">
           <span>Configuración Frecuencia Carga</span>
         </mat-list-item>
       </mat-nav-list>

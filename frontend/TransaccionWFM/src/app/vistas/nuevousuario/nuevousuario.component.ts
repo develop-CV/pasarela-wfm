@@ -6,6 +6,7 @@ import { Tbusuarios } from 'src/app/modelos/tbusuarios';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+import { SnackbarService } from 'src/app/servicios/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-nuevousuario',
@@ -31,7 +32,7 @@ export class NuevousuarioComponent implements OnInit {
   constructor(private dialogRef : MatDialogRef<NuevousuarioComponent>,
     private api:ServerService, private fb: FormBuilder,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any){
+    @Inject(MAT_DIALOG_DATA) public data: any, public snackBar: SnackbarService){
     }
 
   ngOnInit(): void {
@@ -58,7 +59,7 @@ export class NuevousuarioComponent implements OnInit {
   };
 
   cancelar(){
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   crearUsuario(form:Tbusuarios){
@@ -66,9 +67,10 @@ export class NuevousuarioComponent implements OnInit {
     this.api.grabarUsuario(form).subscribe(data => {
       procesando.close();
       if (data.status.ok){
-        this.dialogRef.close();
+        this.snackBar.openSnackBar('Usuario grabado correctamente', 'Aceptar');
+        this.dialogRef.close(true);
       }else{
-        alert(data.status.mensaje);
+        this.snackBar.openSnackBar(data.status.mensaje, 'Aceptar');
       };
     })
   }

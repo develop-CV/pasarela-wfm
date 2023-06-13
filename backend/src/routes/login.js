@@ -198,15 +198,15 @@ router.post('/validaciontoken', (req, res) => {
     try {
         var request = req.body;
         var tokenString = request.token;
+        if (tokenString.length > 0) { } else {
+            res.send(false);
+        };
+        token.tokenValido(tokenString, (esValido, data) => {
+            res.send(esValido);
+        });
     } catch (error) {
         res.send(false);
     }
-    if (tokenString.length > 0) { } else {
-        res.send(false);
-    };
-    token.tokenValido(tokenString, (esValido, data) => {
-        res.send(esValido);
-    });
 });
 
 /*

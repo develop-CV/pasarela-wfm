@@ -1,0 +1,32 @@
+<form [formGroup]="formDocumento">
+    <div class="container">
+        <p>Para cargar correctamente la planta actualizada, sigue las siguientes instrucciones:</p>
+
+        <p>1. Toma como base el archivo guía que descargaste en la pantalla <em><b>Consulta Planta SARA</b></em>.</p>
+        <p>2. Selecciona el archivo a cargar.</p>
+
+    </div>
+    <div class="container">
+        <input type="file" class="file-input" (change)="onFileChange($event)" #fileUpload>
+
+        <div class="file-upload">
+
+            <mat-grid-list cols="4" rowHeight="25px" (click)="fileUpload.click()" *ngIf="!datosExport">
+                <mat-grid-tile colspan="4" rowspan="1">
+                    <mat-icon>attach_file</mat-icon>
+                </mat-grid-tile>
+                <mat-grid-tile colspan="4" rowspan="1">
+                    Seleccionar archivo
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            {{fileName || ""}}
+            <button mat-mini-fab color="warn" class="upload-btn" (click)="borrarArchivo()" *ngIf="datosExport">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+        <br>
+        <button mat-raised-button color="primary" (click)="cargarArchivo()" [disabled]="!datosExport">Cargar</button>
+    </div>
+</form>

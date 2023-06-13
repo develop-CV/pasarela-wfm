@@ -6,6 +6,7 @@ import { ServerService } from 'src/app/servicios/api/server.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { ProcesandoComponent } from 'src/app/vistas/procesando/procesando.component';
+import { SnackbarService } from 'src/app/servicios/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-password',
@@ -18,7 +19,8 @@ export class PasswordComponent implements OnInit{
   user = <string | ''>localStorage.getItem('user');
   usuario: string;
 
-  constructor(private router: Router, private fb: FormBuilder, private api:ServerService, public dialog: MatDialog) {
+  constructor(private router: Router, private fb: FormBuilder, private api:ServerService,
+    public dialog: MatDialog, public snackBar: SnackbarService) {
     this.usuario = '';
     if (this.user.length > 0) {
       try {
@@ -56,16 +58,16 @@ export class PasswordComponent implements OnInit{
             this.router.navigate(['home']);
           }else{
             // Usuario no valido
-            alert(JSON.parse(data.data).mensaje);
+            this.snackBar.openSnackBar(JSON.parse(data.data).mensaje, 'Aceptar');
           }
         } catch (error) {
           // Usuario no valido
-          alert(error);
+          this.snackBar.openSnackBar(JSON.stringify(error), 'Aceptar');
         }
       }else{
         // Alerta de error en el servidor
         var mensaje = (data.status.mensaje.length > 0 ? data.status.mensaje : 'Error no identificado login de usuario!!!.');
-        alert(mensaje);
+        this.snackBar.openSnackBar(mensaje, 'Aceptar');
       };
     });
   };

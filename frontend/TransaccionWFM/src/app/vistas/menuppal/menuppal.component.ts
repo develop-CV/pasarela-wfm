@@ -31,10 +31,6 @@ export class MenuppalComponent implements OnInit{
     }
   }
 
-  clickOpcionRouter(titulo:string){
-    //this.titulo = titulo;
-  }
-
   cerrarSesion(){
     localStorage.removeItem('user');
     this.router.navigate(['']);

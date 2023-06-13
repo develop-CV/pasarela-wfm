@@ -20,6 +20,21 @@ const config = {
     token:{
         pwd: "Ij7WmCjYjl835xU*kWMs#8y8r1VTs$v1v6%YpZ8Eni^F2WeKai",
         timeExpires:"6h"
+    },
+    databaseOracle:{
+        dirClienteOracle: '/opt/oracle/instantclient_21_10',
+        ConfigConexionSARA: {
+            user: "WFM_INTEMP",
+            password: "Nv4NT143Po",
+            connectString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.50.80)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=DSARA)))",
+            externalAuth: false
+        },
+        ConfigConexionBI: {
+            user: "WFM_INTCOM",
+            password: "Nv4NT143Po",
+            connectString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.50.235)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=MDREIDA)))",
+            externalAuth: false
+        }
     }
 };
 

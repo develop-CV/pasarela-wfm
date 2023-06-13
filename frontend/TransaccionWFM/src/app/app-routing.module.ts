@@ -10,6 +10,9 @@ import { MenuppalComponent } from "src/app/vistas/menuppal/menuppal.component";
 import { DashboardComponent } from "src/app/vistas/menuppal/dashboard/dashboard.component";
 import { UsuariosComponent } from "src/app/vistas/usuarios/usuarios.component";
 import { NewpasswordComponent } from 'src/app/vistas/login/newpassword/newpassword.component';
+import { FrecuenciacargaComponent } from 'src/app/vistas/frecuenciacarga/frecuenciacarga.component';
+import { CargaplantaComponent } from './vistas/cargaplanta/cargaplanta.component';
+import { ConsultaplantaComponent } from './vistas/consultaplanta/consultaplanta.component';
 
 const titulo = (environment.production ? '' : environment.ambiente);
 
@@ -63,6 +66,24 @@ const routes: Routes = [
         component: UsuariosComponent,
         canActivate: [VigilanteGuard],
         title: 'TransaccionWFM-Usuarios ' + titulo
+      },
+      {
+        path:'frecuenciacarga',
+        component: FrecuenciacargaComponent,
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Frecuencia Carga ' + titulo
+      },
+      {
+        path:'cargaplanta',
+        component: CargaplantaComponent,
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Carga Planta ' + titulo
+      },
+      {
+        path:'consultaplanta',
+        component: ConsultaplantaComponent,
+        canActivate: [VigilanteGuard],
+        title: 'TransaccionWFM-Consulta Planta ' + titulo
       }
     ]
   },

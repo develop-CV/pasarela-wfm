@@ -1,0 +1,10 @@
+<mat-card>
+        <mat-card-content>
+                <h1>{{data.titulo}}</h1>
+                <p>{{data.mensaje}}</p>
+                <div class="button-end">
+                        <button mat-raised-button [color]="boton.color" *ngFor="let boton of data.opciones"
+                                (click)="eventoClick(boton)">{{boton.texto}}</button>
+                </div>
+        </mat-card-content>
+</mat-card>
