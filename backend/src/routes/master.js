@@ -36,21 +36,19 @@ router.post('/usuarios', (req, res) => {
             if (esValido === true) {
                 if (data.perfil === 'A') {
                     var consultaUsuarios = new usuarios(data.usuario);
-                    consultaUsuarios.consultaUsuarios(idUsuario, (ok, data, error) => {
-                        if (ok) {
-                            retorno.status.ok = true;
-                            retorno.data = JSON.stringify(data);
-                        } else {
-                            retorno.status.ok = false;
-                            retorno.data = [];
-                            if (error.length > 0) {
-                                retorno.status.mensaje = error;
-                            } else {
-                                retorno.status.mensaje = "Error desconocido al consultar usuarios.";
-                            };
-                        };
+                    consultaUsuarios.consultaUsuarios(idUsuario).then(data => {
+                        retorno.status.ok = true;
+                        retorno.data = JSON.stringify(data);
                         res.json(retorno);
                         return;
+                    }).catch(error => {
+                        retorno.status.ok = false;
+                        retorno.data = [];
+                        if (error.length > 0) {
+                            retorno.status.mensaje = error;
+                        } else {
+                            retorno.status.mensaje = "Error desconocido al consultar usuarios.";
+                        };
                     });
                 } else {
                     retorno.status.ok = false;
@@ -105,19 +103,14 @@ router.post('/tiposidentificacion', (req, res) => {
         validoToken.tokenValido(token, (esValido, data) => {
             if (esValido === true) {
                 var consulta = new maestros(data.usuario);
-                consulta.consultaTiposIdentificacion(idTipoIdentificacion, (ok, data, error) => {
-                    if (ok) {
-                        retorno.status.ok = true;
-                        retorno.data = JSON.stringify(data);
-                    } else {
-                        retorno.status.ok = false;
-                        retorno.data = [];
-                        if (error.length > 0) {
-                            retorno.status.mensaje = error;
-                        } else {
-                            retorno.status.mensaje = "Error desconocido al consultar los tipos de identificación.";
-                        };
-                    };
+                consulta.consultaTiposIdentificacion(idTipoIdentificacion).then((data) => {
+                    retorno.status.ok = true;
+                    retorno.data = JSON.stringify(data);
+                    res.json(retorno);
+                    return;
+                }).catch(error => {
+                    retorno.status.ok = false;
+                    retorno.status.mensaje = error;
                     res.json(retorno);
                     return;
                 });
@@ -179,31 +172,29 @@ router.post('/grabarusuario', (req, res) => {
             if (esValido === true) {
                 if (data.perfil === 'A') {
                     var consulta = new usuarios(data.usuario);
-                    consulta.updateUsuario(datosUsuario, (ok, data, error) => {
-                        if (ok) {
-                            try {
-                                if (data.ok == true) {
-                                    retorno.status.ok = true;
-                                    retorno.data = JSON.stringify(data);
-                                } else {
-                                    retorno.status.ok = false;
-                                    retorno.status.mensaje = data.mensaje;
-                                }
-                            } catch (error) {
-                                retorno.status.ok = false;
-                                retorno.status.mensaje = error;
-                            }
-                        } else {
-                            retorno.status.ok = false;
-                            retorno.data = [];
-                            if (error.length > 0) {
-                                retorno.status.mensaje = error;
+                    consulta.updateUsuario(datosUsuario).then(data => {
+                        try {
+                            if (data.ok == true) {
+                                retorno.status.ok = true;
+                                retorno.data = JSON.stringify(data);
                             } else {
-                                retorno.status.mensaje = "Error desconocido al grabar el usuario.";
-                            };
-                        };
+                                retorno.status.ok = false;
+                                retorno.status.mensaje = data.mensaje;
+                            }
+                        } catch (error) {
+                            retorno.status.ok = false;
+                            retorno.status.mensaje = error;
+                        }
                         res.json(retorno);
                         return;
+                    }).catch(error => {
+                        retorno.status.ok = false;
+                        retorno.data = [];
+                        if (error.length > 0) {
+                            retorno.status.mensaje = error;
+                        } else {
+                            retorno.status.mensaje = "Error desconocido al grabar el usuario.";
+                        };
                     });
                 } else {
                     retorno.status.ok = false;
@@ -259,20 +250,14 @@ router.post('/frecuenciacarga', (req, res) => {
         validoToken.tokenValido(token, (esValido, data) => {
             if (esValido === true) {
                 var consulta = new maestros(data.usuario);
-                consulta.consultarServiciosHorarios(idServicioHorario, (ok, data, error) => {
-                    if (ok) {
-                        retorno.status.ok = true;
-                        retorno.data = JSON.stringify(data);
-                    } else {
-                        retorno.status.ok = false;
-                        retorno.data = [];
-                        console.log(error);
-                        if (error.length > 0) {
-                            retorno.status.mensaje = error;
-                        } else {
-                            retorno.status.mensaje = "Error desconocido al consultar las frecuencias de carga para los servicios.";
-                        };
-                    };
+                consulta.consultarServiciosHorarios(idServicioHorario).then(data => {
+                    retorno.status.ok = true;
+                    retorno.data = JSON.stringify(data);
+                    res.json(retorno);
+                    return;
+                }).catch(error => {
+                    retorno.status.ok = false;
+                    retorno.status.mensaje = error;
                     res.json(retorno);
                     return;
                 });
@@ -324,20 +309,14 @@ router.post('/servicios', (req, res) => {
         validoToken.tokenValido(token, (esValido, data) => {
             if (esValido === true) {
                 var consulta = new maestros(data.usuario);
-                consulta.consultaServicios(idServicio, (ok, data, error) => {
-                    if (ok) {
-                        retorno.status.ok = true;
-                        retorno.data = JSON.stringify(data);
-                    } else {
-                        retorno.status.ok = false;
-                        retorno.data = [];
-                        if (error.length > 0) {
-                            retorno.status.mensaje = error;
-                        } else {
-                            retorno.status.mensaje = "Error desconocido al consultar los servicios.";
-                        };
-                    };
-                    console.log('return 1');
+                consulta.consultaServicios(idServicio).then(data => {
+                    retorno.status.ok = true;
+                    retorno.data = JSON.stringify(data);
+                    res.json(retorno);
+                    return;
+                }).catch(error => {
+                    retorno.status.ok = false;
+                    retorno.status.mensaje = error;
                     res.json(retorno);
                     return;
                 });
@@ -396,29 +375,24 @@ router.post('/grabarfrecuenciacarga', (req, res) => {
             if (esValido === true) {
                 if (data.perfil === 'A') {
                     var consulta = new maestros(data.usuario);
-                    consulta.updateServiciosHorarios(datosServicioHorario, (ok, data, error) => {
-                        if (ok) {
-                            try {
-                                if (data.ok == true) {
-                                    retorno.status.ok = true;
-                                    retorno.data = JSON.stringify(data);
-                                } else {
-                                    retorno.status.ok = false;
-                                    retorno.status.mensaje = data.mensaje;
-                                }
-                            } catch (error) {
-                                retorno.status.ok = false;
-                                retorno.status.mensaje = error;
-                            }
-                        } else {
-                            retorno.status.ok = false;
-                            retorno.data = [];
-                            if (error) {
-                                retorno.status.mensaje = error;
+                    consulta.updateServiciosHorarios(datosServicioHorario).then(data => {
+                        try {
+                            if (data.ok == true) {
+                                retorno.status.ok = true;
+                                retorno.data = JSON.stringify(data);
                             } else {
-                                retorno.status.mensaje = "Error desconocido al grabar la frecuencia de carga.";
-                            };
-                        };
+                                retorno.status.ok = false;
+                                retorno.status.mensaje = data.mensaje;
+                            }
+                        } catch (error) {
+                            retorno.status.ok = false;
+                            retorno.status.mensaje = error;
+                        }
+                        res.json(retorno);
+                        return;
+                    }).catch(error => {
+                        retorno.status.ok = false;
+                        retorno.status.mensaje = error;
                         res.json(retorno);
                         return;
                     });

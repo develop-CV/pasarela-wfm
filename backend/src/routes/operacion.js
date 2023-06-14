@@ -37,13 +37,13 @@ router.post('/consultaplanta', (req, res) => {
                     res.json(retorno);
                     return;
                 })
-                .catch((err) => {
-                    retorno.status.ok = false;
-                    retorno.status.mensaje = err;
-                    retorno.data = [];
-                    res.json(retorno);
-                    return;
-                });
+                    .catch((err) => {
+                        retorno.status.ok = false;
+                        retorno.status.mensaje = err;
+                        retorno.data = [];
+                        res.json(retorno);
+                        return;
+                    });
             } else {
                 retorno.status.ok = false;
                 retorno.status.mensaje = 'Token no valido!!!';
@@ -92,27 +92,16 @@ router.post('/cargaplanta', (req, res) => {
             if (esValido === true) {
                 // CARGAR dataCargaPlanta
                 var consulta = new operacion(data.usuario);
-                consulta.grabarCargasPlanta(dataCargaPlanta, (ok, datoReturn, error) => {
-                    if (ok){
-                        retorno.status.ok = true;
-                        retorno.data = datoReturn;
-                        res.json(retorno);
-                        return;
-                    }else{
-                        if (error){
-                            retorno.status.ok = false;
-                            retorno.status.mensaje = error.toString();
-                            retorno.data = [];
-                            res.json(retorno);
-                            return;
-                        }else{
-                            retorno.status.ok = false;
-                            retorno.status.mensaje = 'Error en la base de datos no reconocido para la carga de planta.';
-                            retorno.data = [];
-                            res.json(retorno);
-                            return;
-                        }
-                    }
+                consulta.grabarCargasPlanta(dataCargaPlanta).then(datoReturn => {
+                    retorno.status.ok = true;
+                    retorno.data = datoReturn;
+                    res.json(retorno);
+                    return;
+                }).catch(error => {
+                    retorno.status.ok = false;
+                    retorno.status.mensaje = error;
+                    res.json(retorno);
+                    return;
                 });
             } else {
                 retorno.status.ok = false;

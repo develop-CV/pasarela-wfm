@@ -41,6 +41,7 @@ export class ConsultaplantaComponent implements OnInit {
       procesando.close();
       if (data.status.ok) {
         this.datosPlanta = data.data;
+        this.datosPlanta = JSON.parse(JSON.stringify(this.datosPlanta).replaceAll('\\t', ' ')); /* Se reemplaza los caracteres que presentan problema al momento de importar la información */
         this.dataSource = new MatTableDataSource<Tbcargasplanta>(this.datosPlanta);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

@@ -31,30 +31,29 @@ router.post('/user', (req, res) => {
     try {
         const usuarios = require('../database/crud/usuarios.js');
         usuariosObj = new usuarios(usuario);
-        usuariosObj.validarUsuario(usuario, (ok, data, error) => {
-            if (ok) {
-                retorno.status.ok = true;
+        usuariosObj.validarUsuario(usuario).then(data => {
+            retorno.status.ok = true;
 
-                var retornoData = {
-                    usuarioOK: false,
-                    data: data
-                };
-                try {
-                    if (data[0].datosUsuario.id > 0) {
-                        retornoData.usuarioOK = true;
-                        retornoData.data = data[0].datosUsuario;
-                    }
-                } catch (error) {
-                }
-
-                retorno.data = JSON.stringify(retornoData);
-                res.json(retorno);
-                return;
-            } else {
-                retorno.status.mensaje = JSON.stringify(error);
-                res.json(retorno);
-                return;
+            var retornoData = {
+                usuarioOK: false,
+                data: data
             };
+            try {
+                if (data[0].datosUsuario.id > 0) {
+                    retornoData.usuarioOK = true;
+                    retornoData.data = data[0].datosUsuario;
+                }
+            } catch (error) {
+            }
+
+            retorno.data = JSON.stringify(retornoData);
+            res.json(retorno);
+            return;
+        }).catch(error => {
+            retorno.status.ok = false;
+            retorno.status.mensaje = error;
+            res.json(retorno);
+            return;
         });
     } catch (error) {
         retorno.status.mensaje = error.toString();
@@ -92,99 +91,98 @@ router.post('/login', (req, res) => {
     try {
         const usuarios = require('../database/crud/usuarios.js');
         usuariosObj = new usuarios(usuario);
-        usuariosObj.validarUsuario(usuario, (ok, data, error) => {
-            if (ok) {
-                var retornoData = {
-                    usuarioOK: false,
-                    mensaje: '',
-                    data: null
-                };
+        usuariosObj.validarUsuario(usuario).then(data => {
+            var retornoData = {
+                usuarioOK: false,
+                mensaje: '',
+                data: null
+            };
 
-                try {
-                    if (data[0].datosUsuario.id > 0) { } else {
-                        retorno.status.ok = true;
-                        retornoData.usuarioOK = false;
-                        retornoData.mensaje = 'Usuario no existe.';
-                        retorno.data = JSON.stringify(retornoData);
-                        res.json(retorno);
-                        return;
-                    };
-                    if (data[0].datosUsuario.esActivo == 1) { } else {
-                        retorno.status.ok = true;
-                        retornoData.usuarioOK = false;
-                        retornoData.mensaje = 'El usuario no se encuentra activo.';
-                        retorno.data = JSON.stringify(retornoData);
-                        res.json(retorno);
-                        return;
-                    };
-                    if (data[0].datosUsuario.esEliminado == 0) { } else {
-                        retorno.status.ok = true;
-                        retornoData.usuarioOK = false;
-                        retornoData.mensaje = 'El usuario se encuentra eliminado.';
-                        retorno.data = JSON.stringify(retornoData);
-                        res.json(retorno);
-                        return;
-                    };
-
-                    usuariosObj.consultarPassword(data[0].datosUsuario.id, (pwdDB, error) => {
-                        if (pwdDB.length > 0) {
-                            const encriptacion = require('../utilidades/encriptacion.js');
-                            var encryp = new encriptacion();
-                            encryp.comparar(contrasena, pwdDB, (igual) => {
-                                if (igual === true) {
-                                    retorno.status.ok = true;
-                                    retornoData.usuarioOK = true;
-                                    retornoData.data = data[0].datosUsuario;
-                                    retornoData.data = data;
-                                    var datosUsuarios = retornoData.data[0].datosUsuario;
-
-                                    // GENERAMOS EL TOKEN
-                                    var token = new tokenServer();
-                                    token.generarToken(datosUsuarios, (tokenString) => {
-                                        if (tokenString.length > 0) {
-                                            datosUsuarios.token = tokenString;
-                                        } else {
-                                            retorno.status.ok = true;
-                                            retornoData.usuarioOK = false;
-                                            retornoData.mensaje = 'No se pudo generar el TOKEN.';
-                                            retorno.data = JSON.stringify(retornoData);
-                                            res.json(retorno);
-                                            return;
-                                        };
-                                    });
-                                    retornoData.data[0].datosUsuario = datosUsuarios;
-
-                                    retorno.data = JSON.stringify(retornoData);
-                                    res.json(retorno);
-                                    return;
-                                } else {
-                                    retorno.status.ok = true;
-                                    retornoData.usuarioOK = false;
-                                    retornoData.mensaje = 'Usuario y contraseña no valido.';
-                                    retorno.data = JSON.stringify(retornoData);
-                                    res.json(retorno);
-                                    return;
-                                };
-                            });
-                        } else {
-                            retorno.status.mensaje = error;
-                            res.json(retorno);
-                            return;
-                        };
-                    });
-                } catch (error) {
+            try {
+                if (data[0].datosUsuario.id > 0) { } else {
                     retorno.status.ok = true;
                     retornoData.usuarioOK = false;
-                    retornoData.mensaje = 'Usuario no valido.';
+                    retornoData.mensaje = 'Usuario no existe.';
                     retorno.data = JSON.stringify(retornoData);
                     res.json(retorno);
                     return;
-                }
-            } else {
-                retorno.status.mensaje = JSON.stringify(error);
+                };
+                if (data[0].datosUsuario.esActivo == 1) { } else {
+                    retorno.status.ok = true;
+                    retornoData.usuarioOK = false;
+                    retornoData.mensaje = 'El usuario no se encuentra activo.';
+                    retorno.data = JSON.stringify(retornoData);
+                    res.json(retorno);
+                    return;
+                };
+                if (data[0].datosUsuario.esEliminado == 0) { } else {
+                    retorno.status.ok = true;
+                    retornoData.usuarioOK = false;
+                    retornoData.mensaje = 'El usuario se encuentra eliminado.';
+                    retorno.data = JSON.stringify(retornoData);
+                    res.json(retorno);
+                    return;
+                };
+
+                usuariosObj.consultarPassword(data[0].datosUsuario.id).then(pwdDB => {
+                    if (pwdDB.length > 0) {
+                        const encriptacion = require('../utilidades/encriptacion.js');
+                        var encryp = new encriptacion();
+                        encryp.comparar(contrasena, pwdDB, (igual) => {
+                            if (igual === true) {
+                                retorno.status.ok = true;
+                                retornoData.usuarioOK = true;
+                                retornoData.data = data[0].datosUsuario;
+                                retornoData.data = data;
+                                var datosUsuarios = retornoData.data[0].datosUsuario;
+
+                                // GENERAMOS EL TOKEN
+                                var token = new tokenServer();
+                                token.generarToken(datosUsuarios, (tokenString) => {
+                                    if (tokenString.length > 0) {
+                                        datosUsuarios.token = tokenString;
+                                    } else {
+                                        retorno.status.ok = true;
+                                        retornoData.usuarioOK = false;
+                                        retornoData.mensaje = 'No se pudo generar el TOKEN.';
+                                        retorno.data = JSON.stringify(retornoData);
+                                        res.json(retorno);
+                                        return;
+                                    };
+                                });
+                                retornoData.data[0].datosUsuario = datosUsuarios;
+
+                                retorno.data = JSON.stringify(retornoData);
+                                res.json(retorno);
+                                return;
+                            } else {
+                                retorno.status.ok = true;
+                                retornoData.usuarioOK = false;
+                                retornoData.mensaje = 'Usuario y contraseña no valido.';
+                                retorno.data = JSON.stringify(retornoData);
+                                res.json(retorno);
+                                return;
+                            };
+                        });
+                    };
+                }).catch(error => {
+                    retorno.status.ok = false;
+                    retorno.status.mensaje = error;
+                    res.json(retorno);
+                    return;
+                });
+            } catch (error) {
+                retorno.status.ok = true;
+                retornoData.usuarioOK = false;
+                retornoData.mensaje = 'Usuario no valido.';
+                retorno.data = JSON.stringify(retornoData);
                 res.json(retorno);
                 return;
-            };
+            }
+        }).catch(error => {
+            retorno.status.mensaje = JSON.stringify(error);
+            res.json(retorno);
+            return;
         });
     } catch (error) {
         retorno.status.mensaje = error.toString();
@@ -225,7 +223,7 @@ router.post('/newpwd', (req, res) => {
         mensaje: '',
         data: null
     };
-    
+
     try {
         var usuario = entrada.usuario;
         var contrasena = entrada.contrasena;
@@ -243,73 +241,75 @@ router.post('/newpwd', (req, res) => {
 
     const usuarios = require('../database/crud/usuarios.js');
     usuariosObj = new usuarios(usuario);
-    usuariosObj.validarUsuario(usuario, (ok, data, error) => {
-        if (ok) {
-            try {
-                if (data[0].datosUsuario.id > 0 && data[0].datosUsuario.esNuevoPassword == 1) {
-                    // Continua el cambio de contraseña
-                } else {
-                    retorno.status.mensaje = 'Para el usuario no se encuentra activo el cambio de contraseña.';
-                    res.json(retorno);
-                    return;
-                };
-            } catch (error) {
-                retorno.status.mensaje = 'Usuario no valido para cambio de Contraseña.';
+    usuariosObj.validarUsuario(usuario).then(data => {
+        try {
+            if (data[0].datosUsuario.id > 0 && data[0].datosUsuario.esNuevoPassword == 1) {
+                const encriptacion = require('../utilidades/encriptacion.js');
+                var encryp = new encriptacion();
+                encryp.encriptar(contrasena, (encriptado, error) => {
+                    if (error) {
+                        retorno.status.mensaje = 'Error al encriptar. ' + error.toString();
+                        res.json(retorno);
+                        return;
+                    } else {
+                        if (encriptado.length > 0) {
+                            // ENVIAR
+                            usuariosObj.updatePasswordSinLogin(usuario, encriptado).then(ok => {
+                                if (ok) {
+                                    // GENERAMOS EL TOKEN
+                                    var datosUsuarios = data[0].datosUsuario;
+                                    var token = new tokenServer();
+                                    token.generarToken(datosUsuarios, (tokenString) => {
+                                        if (tokenString.length > 0) {
+                                            retorno.status.ok = true;
+                                            datosUsuarios.token = tokenString;
+                                            retorno.data.usuarioOK = true;
+                                            retorno.data.mensaje = '';
+                                            retorno.data.data = datosUsuarios;
+                                            retorno.data.data.esNuevoPassword = 0;
+                                            res.json(retorno);
+                                            return;
+                                        } else {
+                                            retorno.status.ok = true;
+                                            retorno.data.usuarioOK = false;
+                                            retorno.data.mensaje = 'No se pudo generar el TOKEN.';
+                                            res.json(retorno);
+                                            return;
+                                        };
+                                    });
+                                } else {
+                                    retorno.status.ok = ok;
+                                    retorno.status.mensaje = mensaje;
+                                    res.json(retorno);
+                                    return;
+                                }
+                            }).catch(error => {
+                                retorno.status.ok = false;
+                                retorno.status.mensaje = error;
+                                res.json(retorno);
+                                return;
+                            });
+                        } else {
+                            retorno.status.mensaje = 'Error al encriptar. No llego dato encriptado.';
+                            res.json(retorno);
+                            return;
+                        };
+                    };
+                });
+            } else {
+                retorno.status.mensaje = 'Para el usuario no se encuentra activo el cambio de contraseña.';
                 res.json(retorno);
                 return;
-            }
-        } else {
-            retorno.status.mensaje = 'Error al validar cambio de contraseña. ' + error.toString();
+            };
+        } catch (error) {
+            retorno.status.mensaje = 'Usuario no valido para cambio de Contraseña.';
             res.json(retorno);
             return;
         };
-        const encriptacion = require('../utilidades/encriptacion.js');
-        var encryp = new encriptacion();
-        encryp.encriptar(contrasena, (encriptado, error) => {
-            if (error) {
-                retorno.status.mensaje = 'Error al encriptar. ' + error.toString();
-                res.json(retorno);
-                return;
-            } else {
-                if (encriptado.length > 0) {
-                    // ENVIAR
-                    usuariosObj.updatePasswordSinLogin(usuario, encriptado, (ok, mensaje) => {
-                        if (ok) {
-                            // GENERAMOS EL TOKEN
-                            var datosUsuarios = data[0].datosUsuario;
-                            var token = new tokenServer();
-                            token.generarToken(datosUsuarios, (tokenString) => {
-                                if (tokenString.length > 0) {
-                                    retorno.status.ok = true;
-                                    datosUsuarios.token = tokenString;
-                                    retorno.data.usuarioOK = true;
-                                    retorno.data.mensaje = '';
-                                    retorno.data.data = datosUsuarios;
-                                    retorno.data.data.esNuevoPassword = 0;
-                                    res.json(retorno);
-                                    return;
-                                } else {
-                                    retorno.status.ok = true;
-                                    retorno.data.usuarioOK = false;
-                                    retorno.data.mensaje = 'No se pudo generar el TOKEN.';
-                                    res.json(retorno);
-                                    return;
-                                };
-                            });
-                        } else {
-                            retorno.status.ok = ok;
-                            retorno.status.mensaje = mensaje;
-                            res.json(retorno);
-                            return;
-                        }
-                    });
-                } else {
-                    retorno.status.mensaje = 'Error al encriptar. No llego dato encriptado.';
-                    res.json(retorno);
-                    return;
-                };
-            };
-        });
+    }).catch(error => {
+        retorno.status.mensaje = 'Error al validar cambio de contraseña. ' + error.toString();
+        res.json(retorno);
+        return;
     });
 });
 
