@@ -21,7 +21,7 @@
             </mat-grid-list>
 
             {{fileName || ""}}
-            <button mat-mini-fab color="warn" class="upload-btn" (click)="borrarArchivo()" *ngIf="datosExport">
+            <button mat-icon-button color="warn" class="upload-btn" (click)="borrarArchivo()" *ngIf="datosExport">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

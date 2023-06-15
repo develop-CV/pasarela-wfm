@@ -29,11 +29,9 @@ class statementMariaDB {
                         resolve(connection);
                         return;
                     }).catch((err) => {
-                        console.log('ENTRO A ERROR');
                         reject(err);
                         return;
                     }).finally(() => {
-                        console.log('FINALIZA CONEXION');
                     });
             } catch (error) {
                 reject(error);
