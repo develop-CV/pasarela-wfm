@@ -11,6 +11,7 @@ const configConexion = {
     connectionLimit: 5,
     bigIntAsNumber: true,
     insertIdAsNumber: true
+    /*trace: true*/
 };
 
 class statementMariaDB {
@@ -20,47 +21,54 @@ class statementMariaDB {
         this.dbConector = mariadb.createPool(configConexion);
     };
 
-    async conexionDB(callback) {
-        try {
-            this.dbConector.getConnection()
-                .then((connection) => {
-                    callback(true, connection, '');
-                    return;
-                }).catch((err) => {
-                    callback(false, null, err);
-                    return;
-                });
-        } catch (error) {
-            callback(false, null, error);
-            return;
-        };
+    async conexionDB() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.dbConector.getConnection()
+                    .then((connection) => {
+                        resolve(connection);
+                        return;
+                    }).catch((err) => {
+                        console.log('ENTRO A ERROR');
+                        reject(err);
+                        return;
+                    }).finally(() => {
+                        console.log('FINALIZA CONEXION');
+                    });
+            } catch (error) {
+                reject(error);
+                return;
+            };
+        });
     };
 
     async query(sql, callback) {
-        this.conexionDB((conexionOK, conexion, error) => {
-            if (conexionOK) {
-                conexion.beginTransaction();
-                //console.log('EJECUTA QUERY');
-                conexion.query(sql)
-                    .then(data => {
-                        //console.log('INGRESA THEN');
-                        conexion.commit();
-                        conexion.end;
-                        callback(true, data, '');
-                        return;
-                    })
-                    .catch(error => {
-                        //console.log('INGRESA CATCH');
-                        console.log(error);
-                        conexion.rollback();
-                        conexion.end;
-                        callback(false, [], error);
-                        return;
-                    });
-            }else{
-                callback(false, [], error);
-                return;
-            };
+        this.conexionDB().then(conexion => {
+            conexion.beginTransaction();
+            //console.log('EJECUTA QUERY');
+            conexion.query(sql)
+                .then(data => {
+                    //console.log('INGRESA THEN');
+                    conexion.commit();
+                    conexion.end;
+                    conexion.destroy()
+                    this.dbConector.end();
+                    callback(true, data, '');
+                    return;
+                })
+                .catch(error => {
+                    //console.log('INGRESA CATCH');
+                    console.log(error);
+                    conexion.rollback();
+                    conexion.end;
+                    conexion.destroy()
+                    this.dbConector.end();
+                    callback(false, [], error);
+                    return;
+                });
+        }).catch(error => {
+            this.dbConector.end();
+            callback(false, [], error);
         });
 
     };

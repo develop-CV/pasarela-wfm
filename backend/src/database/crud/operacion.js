@@ -27,6 +27,27 @@ class operacion {
             };
         });
     };
+
+    consultarCargasPlanta(){
+        return new Promise((resolve, reject) => {
+            try {
+                let statementConsumo = new statement(this.userConnetion);
+                var sql = "SELECT * FROM cargasplanta WHERE codigo IS NOT NULL";
+                statementConsumo.query(sql, (ok, data, error) => {
+                    if (ok){
+                        resolve(data);
+                    }else{
+                        reject(error);
+                    };
+                    return;
+                });
+    
+            } catch (error) {
+                reject(error);
+                return;
+            };
+        });
+    };
 };
 
 module.exports = operacion;

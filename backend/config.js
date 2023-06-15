@@ -35,6 +35,11 @@ const config = {
             connectString: "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.18.50.235)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=MDREIDA)))",
             externalAuth: false
         }
+    },
+    serverWFM:{
+        url: "http://cvc4028v.difarma.cl:14004/services/co/shiftlabor/",
+        identificadorCliente: 13,
+        codigoSeguridad: "SRe96J-hT3MC.qPW8-pU0Xz"
     }
 };
 

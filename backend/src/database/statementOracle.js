@@ -57,7 +57,7 @@ class statement {
                 } finally {
                     if (conexion) {
                         conexion.close();
-                    }
+                    };
                 }
             } else {
                 callback(false, datosReturn, [], error);

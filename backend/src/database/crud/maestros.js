@@ -111,6 +111,22 @@ class maestros {
             });
         });
     };
+
+    consultarTareasxHora(hora){
+        return new Promise((resolve, reject) => {
+            let statementConsumo = new statement(this.userConnetion);
+            var sql = "CALL spConsultarTareas('" + hora + "')";
+            console.log(sql);
+            statementConsumo.query(sql, (ok, data, error) => {
+                if (ok){
+                    resolve(data[0]);
+                }else{
+                    reject(error);
+                };
+                return;
+            });
+        });
+    };
 };
 
 module.exports = maestros;
