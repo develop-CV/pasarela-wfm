@@ -16,7 +16,7 @@ class consumoWFM {
                 break;
         };
     };
-
+    
     autenticar() {
         return new Promise((resolve, reject) => {
             if (this.tipoConsumo.length > 0) {
@@ -30,7 +30,7 @@ class consumoWFM {
                         "IdentificadorCliente": config.serverWFM.identificadorCliente,
                         "CodigoSeguridad": config.serverWFM.codigoSeguridad
                     })
-
+                    
                 };
                 request(options, function (error, response) {
                     if (error){

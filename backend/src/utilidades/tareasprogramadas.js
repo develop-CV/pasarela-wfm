@@ -17,11 +17,11 @@ class tareasprogramadas {
                     switch (tarea.nombreServicio) {
                         case 'Carga Trabajadores':
                             let consumir = new consumo();
-                            consumir.cargarTrabajadores().then().catch().finally(() => {});
+                            consumir.cargarTrabajadores().then(data => {}).catch(error => {}).finally(() => {});
                             break;
                         case 'Proceso Transaccional':
                             let consumira = new consumo();
-                            consumira.cargarTrabajadores().then().catch().finally(() => {});
+                            consumira.cargarTransaccional().then(data => {}).catch(error => {}).finally(() => {});
                             break;
                         default:
                             reject('Tarea ' + tarea.nombreServicio + ' no reconocida');
