@@ -1,7 +1,6 @@
 const cron = require("node-cron"); // Instancio el paquete 'node-cron' 
 const express = require('express');
 const cors = require('cors');
-const { time } = require("console");
 
 const app = express();
 
@@ -39,14 +38,16 @@ app.listen(app.get('port'), () => {
     console.log("Server en puerto: " + app.get('port'));
 });
 
-cron.schedule("*/1 * * * *", function () {
+cron.schedule("*/1 * * * *", function (fecha) {
+    //console.log('Fecha y Hora: ', fecha);
     const tareas = require('./utilidades/tareasprogramadas.js');
     let tarea = new tareas();
     tarea.ejecutarTareas().then(totalTareas => {
-        console.log('Se ejecutan', totalTareas, 'tareas.');
+        console.log('Se ejecutan las tareas.');
     }).catch(error => {
         console.log(error);
     }).finally(() => {
         console.log('Finaliza tarea');
+        
     });
 });

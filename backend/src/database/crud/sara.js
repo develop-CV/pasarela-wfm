@@ -100,18 +100,18 @@ class operacion {
 
     consultaTransaccional(parametros) {
         return new Promise((resolve, reject) => {
-            var fechaInicial =  ("00" + parametros.fechaInicial.getDate()).slice(-2) + "/" +
-                                ("00" + (parametros.fechaInicial.getMonth() + 1)).slice(-2) + "/" +
-                                parametros.fechaInicial.getFullYear() + " " +
-                                ("00" + parametros.fechaInicial.getHours()).slice(-2) + ":" +
-                                ("00" + parametros.fechaInicial.getMinutes()).slice(-2) + ":" +
-                                ("00" + parametros.fechaInicial.getSeconds()).slice(-2);
-            var fechaFinal =    ("00" + parametros.fechaFinal.getDate()).slice(-2) + "/" +
-                                ("00" + (parametros.fechaFinal.getMonth() + 1)).slice(-2) + "/" +
-                                parametros.fechaFinal.getFullYear() + " " +
-                                ("00" + parametros.fechaFinal.getHours()).slice(-2) + ":" +
-                                ("00" + parametros.fechaFinal.getMinutes()).slice(-2) + ":" +
-                                ("00" + parametros.fechaFinal.getSeconds()).slice(-2);
+            var fechaInicial = ("00" + parametros.fechaInicial.getDate()).slice(-2) + "/" +
+                ("00" + (parametros.fechaInicial.getMonth() + 1)).slice(-2) + "/" +
+                parametros.fechaInicial.getFullYear() + " " +
+                ("00" + parametros.fechaInicial.getHours()).slice(-2) + ":" +
+                ("00" + parametros.fechaInicial.getMinutes()).slice(-2) + ":" +
+                ("00" + parametros.fechaInicial.getSeconds()).slice(-2);
+            var fechaFinal = ("00" + parametros.fechaFinal.getDate()).slice(-2) + "/" +
+                ("00" + (parametros.fechaFinal.getMonth() + 1)).slice(-2) + "/" +
+                parametros.fechaFinal.getFullYear() + " " +
+                ("00" + parametros.fechaFinal.getHours()).slice(-2) + ":" +
+                ("00" + parametros.fechaFinal.getMinutes()).slice(-2) + ":" +
+                ("00" + parametros.fechaFinal.getSeconds()).slice(-2);
 
             var sql = "SELECT   CODIGO, TIENDA, UNIDAD_COMERCIAL, CANAL, DRIVER_COMERCIAL, FECHA,";
             sql += "            NVL (H_00_00, '0') H_00_00,";
@@ -213,7 +213,8 @@ class operacion {
             sql += " FROM   XXOSIBI.TMP_COMERCIAL_WFM_SHIFT_V2";
             sql += " WHERE  FECHA BETWEEN TO_DATE ('" + fechaInicial + "', 'DD/MM/YYYY HH24:MI:SS')";
             sql += "        AND TO_DATE ('" + fechaFinal + "', 'DD/MM/YYYY HH24:MI:SS')";
-
+            //sql += " and ROWNUM < 2";
+            
             let consumo = new statement('BI');
             consumo.execSelect(sql, (ok, data, error) => {
                 if (ok == true) {
@@ -233,9 +234,38 @@ class operacion {
 
     transaccionalParametrosConsulta() {
         return new Promise((resolve, reject) => {
+            /*
             resolve({
                 fechaInicial: new Date(2023, 4, 29, -5, 0, 0),
-                fechaFinal: new Date(2023, 5, 4, 18, 59, 59) /* '04/06/2023 23:59:59' */
+                fechaFinal: new Date(2023, 5, 4, 18, 59, 59) /* '04/06/2023 23:59:59' *//*
+            });
+            */
+
+            const maestro = require('./maestros.js');
+            var consulta = new maestro('TareaProgramada');
+            consulta.consultarParametros('diasTransaccional').then(data => {
+                if (data.length == 1) {
+                    var dias = parseInt(data[0].valor);
+                    if (dias >= 0) {
+                        var fechaFin = new Date();
+                        fechaFin.setDate(fechaFin.getDate() - 1);
+                        fechaFin = new Date(fechaFin.getFullYear(), fechaFin.getMonth(), fechaFin.getDate(), 23, 59, 59, 59);
+                        var fechaIni = new Date();
+                        fechaIni.setDate(fechaFin.getDate() - dias);
+                        fechaIni = new Date(fechaIni.getFullYear(), fechaIni.getMonth(), fechaIni.getDate(), 0, 0, 0, 0);
+
+                        resolve({
+                            fechaInicial: fechaIni,
+                            fechaFinal: fechaFin
+                        });
+                    } else {
+                        reject('El valor configurado [' + data[0].valor + '] para los días de la consulta Transaccional no es valido.');
+                    };
+                } else {
+                    reject('Se presento error al consultar los días para la consulta Transaccional.');
+                };
+            }).catch(error => {
+                reject(error);
             });
         });
     };

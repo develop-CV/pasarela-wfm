@@ -49,7 +49,7 @@ class maestros {
                         resolve(data[0]);
                     } else {
                         reject(error);
-                    }
+                    };
                     return;
                 });
             } catch (error) {
@@ -75,7 +75,7 @@ class maestros {
                         resolve(data[0]);
                     } else {
                         reject(error);
-                    }
+                    };
                     return;
                 });
             } catch (error) {
@@ -90,7 +90,7 @@ class maestros {
             let statementConsumo = new statement(this.userConnetion);
             var sql = "CALL spGrabarServiciosHorarios('" + JSON.stringify(datosServiciosHorarios) + "')";
             statementConsumo.query(sql, (ok, data, error) => {
-                if (ok){
+                if (ok) {
                     var dataReturn = '';
                     try {
                         if (data[0]) {
@@ -98,13 +98,13 @@ class maestros {
                                 dataReturn = (data[0])[0];
                             } else {
                                 dataReturn = data[0];
-                            }
-                        }
+                            };
+                        };
                         resolve(dataReturn);
                     } catch (error) {
                         reject(error);
-                    }
-                }else{
+                    };
+                } else {
                     reject(error);
                 };
                 return;
@@ -112,14 +112,65 @@ class maestros {
         });
     };
 
-    consultarTareasxHora(hora){
+    consultarTareasxHora(hora) {
         return new Promise((resolve, reject) => {
             let statementConsumo = new statement(this.userConnetion);
             var sql = "CALL spConsultarTareas('" + hora + "')";
             statementConsumo.query(sql, (ok, data, error) => {
-                if (ok){
+                if (ok) {
                     resolve(data[0]);
-                }else{
+                } else {
+                    reject(error);
+                };
+                return;
+            });
+        });
+    };
+
+    updateAuditorias(datos) {
+        return new Promise((resolve, reject) => {
+            let statementConsumo = new statement(this.userConnetion);
+            var sql = "CALL spAuditoria('" + datos.entidad + "', '" + datos.datoAnterior + "', '" + datos.datoNuevo + "')";
+            statementConsumo.query(sql, (ok, data, error) => {
+                console.log(error);
+                if (ok) {
+                    resolve(data[0]);
+                } else {
+                    reject(error);
+                };
+                return;
+            });
+        });
+    }
+
+    updateCargas(datos) {
+        return new Promise((resolve, reject) => {
+            let statementConsumo = new statement(this.userConnetion);
+            var sql = "CALL spGrabarCargasAuditoria('[" + JSON.stringify(datos) + "]')";
+            statementConsumo.query(sql, (ok, data, error) => {
+                if (ok) {
+                    data = data[0];
+                    if (data[0].ok == true && data[0].idCarga > 0) {
+                        resolve(data[0].idCarga);
+                    } else {
+                        reject(data[0].mensaje);
+                    };
+                } else {
+                    reject(error);
+                };
+                return;
+            });
+        });
+    };
+
+    consultarParametros(codigo) {
+        return new Promise((resolve, reject) => {
+            let statementConsumo = new statement(this.userConnetion);
+            var sql = "CALL spConsultarParametros('" + codigo + "')";
+            statementConsumo.query(sql, (ok, data, error) => {
+                if (ok) {
+                    resolve(data[0]);
+                } else {
                     reject(error);
                 };
                 return;
